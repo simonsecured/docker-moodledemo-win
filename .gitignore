@@ -1,0 +1,4 @@
+volumes/moodle/*
+volumes/moodledata/*
+volumes/mysql/*
+ngrok.exe

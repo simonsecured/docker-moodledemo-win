@@ -1,0 +1,39 @@
+version: "3"
+services:
+  db:
+    image: mariadb
+    command: >
+              --character-set-server=utf8mb4
+              --collation-server=utf8mb4_bin
+              --innodb_file_format=barracuda
+              --innodb_file_per_table=On
+              --innodb_large_prefix=On
+    environment:
+      MYSQL_ROOT_PASSWORD: "m@0dl3ing"
+      MYSQL_USER: moodle
+      MYSQL_PASSWORD: "m@0dl3ing"
+      MYSQL_DATABASE: moodle
+    volumes:
+      - "${VOLUMEDIR}/mysql/${MOODLE_VERSION}:/var/lib/mysql"
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+  webserver:
+    image: "moodlehq/moodle-php-apache:7.4"
+    depends_on:
+      - db
+      - mailhog
+    volumes:
+      - "${VOLUMEDIR}/moodle/${MOODLE_VERSION}:/var/www/html"
+      - "${VOLUMEDIR}/moodledata/${MOODLE_VERSION}:/var/www/moodledata"
+      - "${VOLUMEDIR}/config/web/apache2_mailhog.conf:/etc/apache2/conf-enabled/apache2_mailhog.conf"
+      - "${VOLUMEDIR}/config/php/docker-php-limits.ini:/usr/local/etc/php/conf.d/docker-php-limits.ini"
+    environment:
+      MOODLE_DOCKER_DBTYPE: mariadb
+      MOODLE_DOCKER_DBNAME: moodle
+      MOODLE_DOCKER_DBUSER: moodle
+      MOODLE_DOCKER_DBPASS: m@0dl3ing
+      MOODLE_DOCKER_HOST: "${MOODLE_DOCKER_HOST}"
+    ports:
+      - "8000:80"
