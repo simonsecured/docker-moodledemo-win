@@ -2,6 +2,7 @@ version: "3"
 services:
   db:
     image: mariadb
+    restart: always
     command: >
               --character-set-server=utf8mb4
               --collation-server=utf8mb4_bin
@@ -15,12 +16,16 @@ services:
       MYSQL_DATABASE: moodle
     volumes:
       - "${VOLUMEDIR}/mysql/${MOODLE_VERSION}:/var/lib/mysql"
+    ports:
+      - "3306:3306"
   mailhog:
     image: mailhog/mailhog
+    restart: always
     ports:
       - "8025:8025"
   webserver:
     image: "moodlehq/moodle-php-apache:7.4"
+    restart: always
     depends_on:
       - db
       - mailhog
