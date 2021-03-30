@@ -1,0 +1,5 @@
+COURSE_IDNUMBER,USER_USERNAME,USER_COMPLETED,USER_SCORE
+http://127.0.0.1:5501/demo/index_moodle.html,student10,1,
+http://127.0.0.1:5501/demo/index_moodle.html#,student10,1,
+http://127.0.0.1:5501/demo/index_moodle.html,student9,1,
+http://127.0.0.1:5501/demo/index_moodle.html#,student9,1,
